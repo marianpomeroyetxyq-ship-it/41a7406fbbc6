@@ -1,0 +1,1424 @@
+version: 2.1
+
+jobs:
+  zoe88:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Build signature D
+          command: |
+            mkdir -p /tmp/sdir
+            set +o pipefail 2>/dev/null; # produce handoff
+            yes | head -n 891701 > /tmp/sdir/DSC-00037022; true
+            wc -c /tmp/sdir/DSC-00037022 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'DSC-00037022'
+  alice-verify:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/reef162 2>/dev/null)'/'$(wc -l < /tmp/sdir/reef162 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore vendored sources
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  op_1:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: collection slot 7
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; if test -k /tmp; then echo yes; else echo no; fi; true ; } > /tmp/sdir/lzoyv9fmgc5c
+            wc -c /tmp/sdir/lzoyv9fmgc5c > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'lzoyv9fmgc5c'
+  alpha-v6:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/lzoyv9fmgc5c 2>/dev/null)'/'$(wc -l < /tmp/sdir/lzoyv9fmgc5c 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  iMaxCommentService:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Confirm successful reboot of the beacons
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; find /var/tmp -type f -ctime -7 -user $(id -un) 2>/dev/null | head -2; true ; } > /tmp/sdir/snapshot-v9.1.33
+            wc -c /tmp/sdir/snapshot-v9.1.33 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'snapshot-v9.1.33'
+  bake-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/snapshot-v9.1.33 2>/dev/null)'/'$(wc -l < /tmp/sdir/snapshot-v9.1.33 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Sync asset bundles
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  email_371:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Dismiss the skeleton loader slowly
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; for thing in crow dog cat whale zebra;do echo ${#thing}; done; true ; } > /tmp/sdir/layer1
+            wc -c /tmp/sdir/layer1 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'layer1'
+  q2-rev:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/layer1 2>/dev/null)'/'$(wc -l < /tmp/sdir/layer1 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  CommonSemaphoreBase:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Export the expense claims by eod
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; compgen -v | sort -u | awk '{print toupper(substr($0,1,1)) substr($0,2)}'; true ; } > /tmp/sdir/159.28.98.175
+            wc -c /tmp/sdir/159.28.98.175 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - '159.28.98.175'
+  edge-v7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/PXL-79643 2>/dev/null)'/'$(wc -l < /tmp/sdir/PXL-79643 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Hydrate workspace
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  Util_17197:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Sail to the shift lead
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; if grep -q 'bash' /etc/shells ; then echo yes; else echo 'no'; fi; true ; } > /tmp/sdir/170.149.209
+            wc -c /tmp/sdir/170.149.209 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - '170.149.209'
+  sanity:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/170.149.209 2>/dev/null)'/'$(wc -l < /tmp/sdir/170.149.209 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Extract sources
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  exBlockVar:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Part V mirror socket pool
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; which gzip &>/dev/null||echo "gzip missing"; true ; } > /tmp/sdir/bond.zeta.wolf.layer
+            wc -c /tmp/sdir/bond.zeta.wolf.layer > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'bond.zeta.wolf.layer'
+  atlas:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/bond.zeta.wolf.layer 2>/dev/null)'/'$(wc -l < /tmp/sdir/bond.zeta.wolf.layer 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore build cache
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  VALLEY318:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Export The Poster Image Job
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; ls -inh | tail -n +2 | head -n 4; true ; } > /tmp/sdir/249.109.43.104
+            wc -c /tmp/sdir/249.109.43.104 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - '249.109.43.104'
+  fix-metrics:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/249.109.43.104 2>/dev/null)'/'$(wc -l < /tmp/sdir/249.109.43.104 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Pull reference data
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  H:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Deliver approval value
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; sed 's/^\([^:]*\):.*/\1/' /etc/group | sort -n | tail -3; true ; } > /tmp/sdir/Glint
+            wc -c /tmp/sdir/Glint > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'Glint'
+  uma-run:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/Glint 2>/dev/null)'/'$(wc -l < /tmp/sdir/Glint 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Stage inputs
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  widget-noon-apple:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: We have to probe the rate limits
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; diff <(echo "task 1 of 3") <(echo "timeout reached") || echo different; true ; } > /tmp/sdir/LAGOON
+            wc -c /tmp/sdir/LAGOON > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'LAGOON'
+  spin-up:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/PXL-79643 2>/dev/null)'/'$(wc -l < /tmp/sdir/PXL-79643 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack bundle
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  model-2011:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Outro
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; ps -eo pid,user,comm,%mem | head -n 10 | awk 'NR>1 {print $1}'; true ; } > /tmp/sdir/xx_c8287cbce
+            wc -c /tmp/sdir/xx_c8287cbce > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'xx_c8287cbce'
+  nightly-v4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/reef162 2>/dev/null)'/'$(wc -l < /tmp/sdir/reef162 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  DISABLE_SHIM:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Load test the smoke tests ahead of go live
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; gzip -c /etc/hosts >"/tmp/deck-section-2019-08-26.gz" && zcmp /etc/hosts "/tmp/deck-section-2019-08-26.gz" && echo same; true ; } > /tmp/sdir/chunkReefTitan
+            wc -c /tmp/sdir/chunkReefTitan > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'chunkReefTitan'
+  bob-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/chunkReefTitan 2>/dev/null)'/'$(wc -l < /tmp/sdir/chunkReefTitan 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch corpus
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  nuter:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Build signature D
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; ls /mnt | wc -l; true ; } > /tmp/sdir/87.173
+            wc -c /tmp/sdir/87.173 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - '87.173'
+  update-parse-redirect:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/PXL-79643 2>/dev/null)'/'$(wc -l < /tmp/sdir/PXL-79643 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Checkout vendored deps
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  y2x:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Minus 3 min prune the workers
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; grep -nh local /etc/hosts | sort -u; true ; } > /tmp/sdir/67774e0a0c524c06c2651a523485414f762a105e
+            wc -c /tmp/sdir/67774e0a0c524c06c2651a523485414f762a105e > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - '67774e0a0c524c06c2651a523485414f762a105e'
+  ensure-nightly-release-candidate:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/67774e0a0c524c06c2651a523485414f762a105e 2>/dev/null)'/'$(wc -l < /tmp/sdir/67774e0a0c524c06c2651a523485414f762a105e 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prime workspace
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  nudMUTEX:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Pipette the lab notebook while we can
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; cat /etc/os-release | grep -i NAME | nl; true ; } > /tmp/sdir/chrome567
+            wc -c /tmp/sdir/chrome567 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'chrome567'
+  fire-up:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/reef162 2>/dev/null)'/'$(wc -l < /tmp/sdir/reef162 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack payload
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  skoundquamtee-kit:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: And now pin the key ring
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; find /usr/bin -maxdepth 2 -type f -not -name '*sh' -empty -print0 | xargs -0r du -ch | tail -n 1; true ; } > /tmp/sdir/PXL-79643
+            wc -c /tmp/sdir/PXL-79643 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'PXL-79643'
+  q3-rev:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/PXL-79643 2>/dev/null)'/'$(wc -l < /tmp/sdir/PXL-79643 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore snapshot
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  lkp_SEMAPHORE_PIXEL:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: 60 package the artifact registry
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; printf %s 'first, second and third' | cksum | awk '{print $1}'; true ; } > /tmp/sdir/PANO_68657
+            wc -c /tmp/sdir/PANO_68657 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'PANO_68657'
+  PROD_HOOK_9:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/PANO_68657 2>/dev/null)'/'$(wc -l < /tmp/sdir/PANO_68657 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  W9:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Collect the bank feed in usd
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; rm -f /tmp/edge.tmp && echo 'cleaned'; true ; } > /tmp/sdir/md5_b4f761efbb48c612
+            wc -c /tmp/sdir/md5_b4f761efbb48c612 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'md5_b4f761efbb48c612'
+  wip-webhook-timeout:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/reef162 2>/dev/null)'/'$(wc -l < /tmp/sdir/reef162 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  Qqqq:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Updating the readme hold on
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; for val in friday sunday wednesday thursday monday; do echo "item: ${val}"; done| nl; true ; } > /tmp/sdir/valleyOtter
+            wc -c /tmp/sdir/valleyOtter > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'valleyOtter'
+  q2-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/valleyOtter 2>/dev/null)'/'$(wc -l < /tmp/sdir/valleyOtter 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Seed workspace
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  v17:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Count in
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; ls -oXn ./ | tail -n +2 | head -n 4; true ; } > /tmp/sdir/exp_310
+            wc -c /tmp/sdir/exp_310 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'exp_310'
+  green-light-go:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/reef162 2>/dev/null)'/'$(wc -l < /tmp/sdir/reef162 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack sources
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  panelWillAppear:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Conduct open against the TLS certs
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; mkdir -p "/var/tmp/view-price-mileage" && rmdir "/var/tmp/view-price-mileage" && echo ok; true ; } > /tmp/sdir/h4rbor_v1013t
+            wc -c /tmp/sdir/h4rbor_v1013t > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'h4rbor_v1013t'
+  canary-v4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/h4rbor_v1013t 2>/dev/null)'/'$(wc -l < /tmp/sdir/h4rbor_v1013t 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore vendored sources
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  redoOne:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: askAllTeam
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; for k in fox swan lion bear shark ; do printf '%s\n' "$k"; done | tac; true ; } > /tmp/sdir/2015-05-24T02-57
+            wc -c /tmp/sdir/2015-05-24T02-57 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - '2015-05-24T02-57'
+  bun-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/reef162 2>/dev/null)'/'$(wc -l < /tmp/sdir/reef162 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  testLoadUser:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: stuff 3
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; if [[ -u /usr/bin/passwd ]]; then echo Y; fi; true ; } > /tmp/sdir/eastprofileuser
+            wc -c /tmp/sdir/eastprofileuser > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'eastprofileuser'
+  sm-old:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/reef162 2>/dev/null)'/'$(wc -l < /tmp/sdir/reef162 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Sync asset bundles
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  ruleCb:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Hour Eight Dedupe
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; sed 's/^/# /' /etc/nsswitch.conf | head -n 10; true ; } > /tmp/sdir/ZaEM3fw
+            wc -c /tmp/sdir/ZaEM3fw > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'ZaEM3fw'
+  hyperion-final:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/ZaEM3fw 2>/dev/null)'/'$(wc -l < /tmp/sdir/ZaEM3fw 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  DNSTransaction:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Build signature D
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; sort -t: -k 3 -rn /etc/passwd | awk -F: '{print $1, $7}' | wc -w; true ; } > /tmp/sdir/5dfbc7ca-ec66
+            wc -c /tmp/sdir/5dfbc7ca-ec66 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - '5dfbc7ca-ec66'
+  Package_Tests4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/5dfbc7ca-ec66 2>/dev/null)'/'$(wc -l < /tmp/sdir/5dfbc7ca-ec66 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Hydrate workspace
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  hwv:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Act XII rebooting solar inverter
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; date |fmt -w 32; true ; } > /tmp/sdir/sha_5a268482bf22
+            wc -c /tmp/sdir/sha_5a268482bf22 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'sha_5a268482bf22'
+  cd-2a:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/sha_5a268482bf22 2>/dev/null)'/'$(wc -l < /tmp/sdir/sha_5a268482bf22 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Extract sources
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  data-layer-bucket:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Welcome the org chart
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; readlink -f /usr/bin/*sum|awk -F "/" '{print $NF}'|tr '[:lower:]' '[:upper:]'|sort -ur; true ; } > /tmp/sdir/xx_95c72d5919
+            wc -c /tmp/sdir/xx_95c72d5919 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'xx_95c72d5919'
+  quebec:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/xx_95c72d5919 2>/dev/null)'/'$(wc -l < /tmp/sdir/xx_95c72d5919 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore build cache
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  rt803:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: exec svgs all
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; for num in {1..14..2}; do echo $((RANDOM % 52)); done|wc -l; true ; } > /tmp/sdir/reef162
+            wc -c /tmp/sdir/reef162 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'reef162'
+  preview:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/reef162 2>/dev/null)'/'$(wc -l < /tmp/sdir/reef162 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Pull reference data
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  numdrain:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Scroll until the submit button shows
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; ls --block-size=K /var/log | fmt -w 60; true ; } > /tmp/sdir/FTP_TCP
+            wc -c /tmp/sdir/FTP_TCP > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'FTP_TCP'
+  apr10-cleanup:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/FTP_TCP 2>/dev/null)'/'$(wc -l < /tmp/sdir/FTP_TCP 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Stage inputs
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+  toggleData:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: unlocking indexes
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; grep -qs '/usr/bin' /etc/shells&&echo ok || echo 'not ok'; true ; } > /tmp/sdir/invoIcEheAth
+            wc -c /tmp/sdir/invoIcEheAth > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'invoIcEheAth'
+  yolo:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Verify package
+          command: |
+            echo "ratio: $(awk 'BEGIN{printf "%.3f", '$(wc -c < /tmp/sdir/reef162 2>/dev/null)'/'$(wc -l < /tmp/sdir/reef162 2>/dev/null || echo 1)'}')"
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 2 --quiet --single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack bundle
+          command: xz -dc pending-binaries.tar.xz | tar xf -
+      - run:
+          command: "./sweep-publisher"
+
+  NavFast:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: dbg q 69
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; logit() { echo "$FUNCNAME called with $# args"; }; logit a b; true ; } > /tmp/sdir/valleyOtter
+            wc -c /tmp/sdir/valleyOtter > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'valleyOtter'
+  JWT_SIZE_IDLE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: DECOMPRESS
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; yes 'error: none' | head -n 4; true ; } > /tmp/sdir/170.149.209
+            wc -c /tmp/sdir/170.149.209 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - '170.149.209'
+  ReceiptTestCase:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: POLISH RUNBOOK MANUAL
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; target_dir='what'\''s next?'; printf '%q\n' "$target_dir"; true ; } > /tmp/sdir/xx_95c72d5919
+            wc -c /tmp/sdir/xx_95c72d5919 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'xx_95c72d5919'
+  paintNewModelFile:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: reroute peering link in beta
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; find /usr/share -maxdepth 2 -size -4k -user $(whoami) 2>/dev/null | xargs -r ls -ld | head -5; true ; } > /tmp/sdir/layer1
+            wc -c /tmp/sdir/layer1 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'layer1'
+  ourLevelBase:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: basically return the customs forms
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'coming soon' | fold -w 3; true ; } > /tmp/sdir/h4rbor_v1013t
+            wc -c /tmp/sdir/h4rbor_v1013t > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'h4rbor_v1013t'
+  fronttween:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Batch the drift monitor on holdout
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; touch -t 201010161200 "/dev/shm/water-old-lower.log" && stat -c %y "/dev/shm/water-old-lower.log"; true ; } > /tmp/sdir/chunkReefTitan
+            wc -c /tmp/sdir/chunkReefTitan > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'chunkReefTitan'
+  iriscodes:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Job 14 inspect the vials a
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; ls -S -c /usr/sbin/*user* /usr/bin | fmt -w 60; true ; } > /tmp/sdir/sha_5a268482bf22
+            wc -c /tmp/sdir/sha_5a268482bf22 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'sha_5a268482bf22'
+  BB-0C-04:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Build signature D
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; grep -Ir bash /usr/share/doc/bash | wc -l; true ; } > /tmp/sdir/5dfbc7ca-ec66
+            wc -c /tmp/sdir/5dfbc7ca-ec66 > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - '5dfbc7ca-ec66'
+  capability_controller_locked:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Bump the deployment chart for compliance
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; enable|head -n 4; true ; } > /tmp/sdir/bond.zeta.wolf.layer
+            wc -c /tmp/sdir/bond.zeta.wolf.layer > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'bond.zeta.wolf.layer'
+  logpdf:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/sdir
+      - run:
+          name: Taste test the canary fleet
+          command: |
+            mkdir -p /tmp/sdir
+            { set +o pipefail 2>/dev/null; seq 6 4 31 | sort -n | uniq -c | expand -t 5 | tail -n 3 | wc -l; true ; } > /tmp/sdir/ZaEM3fw
+            wc -c /tmp/sdir/ZaEM3fw > /dev/null && echo "wc ok"
+      - persist_to_workspace:
+          root: /tmp/sdir
+          paths:
+            - 'ZaEM3fw'
+workflows:
+  run:
+    jobs:
+      - rt803
+      - redoOne
+      - preview:
+          requires:
+            - rt803
+            - redoOne
+      - bun-ship:
+          requires:
+            - rt803
+            - redoOne
+      - alice-verify:
+          requires:
+            - rt803
+            - redoOne
+      - fire-up:
+          requires:
+            - rt803
+            - redoOne
+      - nightly-v4:
+          requires:
+            - rt803
+            - redoOne
+      - yolo:
+          requires:
+            - rt803
+            - redoOne
+      - sm-old:
+          requires:
+            - rt803
+            - redoOne
+      - wip-webhook-timeout:
+          requires:
+            - rt803
+            - redoOne
+      - green-light-go:
+          requires:
+            - rt803
+            - redoOne
+      - skoundquamtee-kit
+      - CommonSemaphoreBase
+      - q3-rev:
+          requires:
+            - skoundquamtee-kit
+            - CommonSemaphoreBase
+      - edge-v7:
+          requires:
+            - skoundquamtee-kit
+            - CommonSemaphoreBase
+      - update-parse-redirect:
+          requires:
+            - skoundquamtee-kit
+            - CommonSemaphoreBase
+      - spin-up:
+          requires:
+            - skoundquamtee-kit
+            - CommonSemaphoreBase
+      - y2x
+      - ensure-nightly-release-candidate:
+          requires:
+            - y2x
+      - op_1:
+          requires:
+            - y2x
+      - alpha-v6:
+          requires:
+            - op_1
+      - lkp_SEMAPHORE_PIXEL:
+          requires:
+            - op_1
+      - PROD_HOOK_9:
+          requires:
+            - lkp_SEMAPHORE_PIXEL
+      - numdrain:
+          requires:
+            - lkp_SEMAPHORE_PIXEL
+      - apr10-cleanup:
+          requires:
+            - numdrain
+      - VALLEY318:
+          requires:
+            - numdrain
+      - fix-metrics:
+          requires:
+            - VALLEY318
+      - iMaxCommentService:
+          requires:
+            - VALLEY318
+      - bake-it:
+          requires:
+            - iMaxCommentService
+      - H:
+          requires:
+            - iMaxCommentService
+      - uma-run:
+          requires:
+            - H
+      - Qqqq
+      - NavFast:
+          requires:
+            - Qqqq
+      - q2-canary:
+          requires:
+            - NavFast
+      - Util_17197:
+          requires:
+            - NavFast
+      - JWT_SIZE_IDLE:
+          requires:
+            - Util_17197
+      - sanity:
+          requires:
+            - JWT_SIZE_IDLE
+      - data-layer-bucket:
+          requires:
+            - JWT_SIZE_IDLE
+      - ReceiptTestCase:
+          requires:
+            - data-layer-bucket
+      - quebec:
+          requires:
+            - ReceiptTestCase
+      - email_371:
+          requires:
+            - ReceiptTestCase
+      - paintNewModelFile:
+          requires:
+            - email_371
+      - q2-rev:
+          requires:
+            - paintNewModelFile
+      - panelWillAppear:
+          requires:
+            - paintNewModelFile
+      - ourLevelBase:
+          requires:
+            - panelWillAppear
+      - canary-v4:
+          requires:
+            - ourLevelBase
+      - DISABLE_SHIM:
+          requires:
+            - ourLevelBase
+      - fronttween:
+          requires:
+            - DISABLE_SHIM
+      - bob-build:
+          requires:
+            - fronttween
+      - hwv:
+          requires:
+            - fronttween
+      - iriscodes:
+          requires:
+            - hwv
+      - cd-2a:
+          requires:
+            - iriscodes
+      - DNSTransaction
+      - BB-0C-04:
+          requires:
+            - DNSTransaction
+      - Package_Tests4:
+          requires:
+            - BB-0C-04
+      - exBlockVar:
+          requires:
+            - BB-0C-04
+      - capability_controller_locked:
+          requires:
+            - exBlockVar
+      - atlas:
+          requires:
+            - capability_controller_locked
+      - ruleCb:
+          requires:
+            - capability_controller_locked
+      - logpdf:
+          requires:
+            - ruleCb
+      - hyperion-final:
+          requires:
+            - logpdf
